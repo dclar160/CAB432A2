@@ -144,7 +144,7 @@ async function fetchID(setImageUpscaled, setLoad, imageBuf, username)
     formData.append('image', imageBuf, imageBuf.name)
     console.log(formData)
 
-    const id = await axios.post('http://172.19.35.252:5000/upload?username=' + username, formData)
+    const id = await axios.post('http://n10201114-magnify-LB-1493282653.ap-southeast-2.elb.amazonaws.com/upload?username=' + username, formData)
     console.log(id.data)
 
     fetchImg(setImageUpscaled, setLoad, id.data);
@@ -152,7 +152,7 @@ async function fetchID(setImageUpscaled, setLoad, imageBuf, username)
 
 async function fetchImg(setImageUpscaled, setLoad, imgId)
 {
-    const image = await axios.get('http://172.19.35.252:5000/image?id=' + imgId)
+    const image = await axios.get('http://n10201114-magnify-LB-1493282653.ap-southeast-2.elb.amazonaws.com/image?id=' + imgId)
     console.log(image.data);
     if (image.data === 'NoImage')
     {
