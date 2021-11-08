@@ -5,14 +5,11 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ImageComponent(props){
-    console.log(props.img)
     if (!props.img) {
-        console.log("your a dumb bitch");
         return <span></span>
     } 
     else {
-        console.log("your a dumber");
-        return <Image src={props.img} thumbnail fuild/>
+        return <Image src={props.img} thumbnail/>
     }
 }
 
@@ -66,7 +63,6 @@ export default function Home() {
         if ((img.type === "image/png" && img.size <= 112740) || (img.type === "image/jpeg" && img.size <= 16932))
         {
             setImage(event.target.files[0])
-            console.log(event.target.files[0])
             setImageDisp(URL.createObjectURL(event.target.files[0]))
         }
         else 
@@ -90,7 +86,6 @@ export default function Home() {
         }
         else 
         {
-            console.log(image)
             fetchID(setImageUpscaled, setLoad, image, username);
         }
 
@@ -142,10 +137,8 @@ async function fetchID(setImageUpscaled, setLoad, imageBuf, username)
     setLoad(true);
     var formData = new FormData();
     formData.append('image', imageBuf, imageBuf.name)
-    console.log(formData)
 
     const id = await axios.post('http://n10201114-magnify-LB-1493282653.ap-southeast-2.elb.amazonaws.com/upload?username=' + username, formData)
-    console.log(id.data)
 
     fetchImg(setImageUpscaled, setLoad, id.data);
 } 
@@ -153,14 +146,12 @@ async function fetchID(setImageUpscaled, setLoad, imageBuf, username)
 async function fetchImg(setImageUpscaled, setLoad, imgId)
 {
     const image = await axios.get('http://n10201114-magnify-LB-1493282653.ap-southeast-2.elb.amazonaws.com/image?id=' + imgId)
-    console.log(image.data);
     if (image.data === 'NoImage')
     {
         setTimeout(function() {fetchImg(setImageUpscaled, setLoad, imgId)}, 1000);
     }
     else 
     {
-        console.log(image.data)
         setImageUpscaled(image.data); 
         setLoad(false);
     }
